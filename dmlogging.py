@@ -17,7 +17,7 @@ def init(filename: str='dmlogging.log', level: str='NOTSET', func_name: bool=Fal
         os.mkdir('.dm')
 
     if not os.access(path, os.F_OK):
-        with open(path, 'w') as file:
+        with open(path, 'w', encoding='utf-8') as file:
             parent_frame = sys._getframe(1)
             parent_file = parent_frame.f_code.co_filename
             data = [
@@ -40,7 +40,7 @@ def init(filename: str='dmlogging.log', level: str='NOTSET', func_name: bool=Fal
             data.append('\n')
             file.write('\n'.join(data))
     else:
-        with open(path, 'a') as file:
+        with open(path, 'a', encoding='utf-8') as file:
             data = '-- New session [{}] --'.format(date).center(80)
             file.write('\n{}\n'.format(data))
 
@@ -88,7 +88,7 @@ def init(filename: str='dmlogging.log', level: str='NOTSET', func_name: bool=Fal
         format='%(pathname)s:%(lineno)d #%(levelname)s [%(asctime)s]{}: %(message)s'.format(func_name),
         level=['NOTSET', 'DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL'].index(level) * 10,
         handlers=[
-            logging.FileHandler(path),
+            logging.FileHandler(path, encoding='utf-8'),
             logging.StreamHandler()
         ],
         datefmt='%Y.%m.%d %H:%M:%S'
